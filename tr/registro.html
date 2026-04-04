@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registro - PNK Inmobiliaria</title>
+    <style>
+        :root {
+            --primary-color: #2b3647;
+            --secondary-color: #00a650;
+            --bg-color: #f5f5f5;
+            --text-color: #333;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', sans-serif; }
+        body { background-color: var(--bg-color); color: var(--text-color); min-height: 100vh; display: flex; flex-direction: column; }
+
+        header { background-color: #ffe600; padding: 15px 5%; display: flex; justify-content: space-between; align-items: center; }
+        .logo-container h1 { font-size: 1.5rem; color: var(--primary-color); }
+        nav a { text-decoration: none; color: var(--primary-color); font-weight: 600; }
+
+        main { flex: 1; display: flex; align-items: center; justify-content: center; padding: 20px; }
+        .registro-container { max-width: 600px; width: 100%; background: #fff; padding: 40px; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); text-align: center; }
+        .registro-container h2 { margin-bottom: 30px; color: var(--primary-color); }
+
+        .opciones { display: flex; flex-direction: column; gap: 20px; }
+        .opcion { padding: 20px; border: 2px solid #eee; border-radius: 8px; text-decoration: none; color: var(--text-color); transition: all 0.3s; }
+        .opcion:hover { border-color: var(--secondary-color); background-color: #f8f9fa; }
+        .opcion h3 { margin-bottom: 10px; color: var(--primary-color); }
+        .opcion p { font-size: 0.9rem; color: #666; }
+
+        footer { background: var(--primary-color); color: #fff; padding: 20px; text-align: center; }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="logo-container">
+            <a href="index.html" style="text-decoration: none; color: inherit;"><h1>PNK Inmobiliaria</h1></a>
+        </div>
+        <nav>
+            <a href="index.html">← Volver al inicio</a>
+        </nav>
+    </header>
+
+    <main>
+        <div class="registro-container">
+            <h2>¿Cómo te gustaría registrarte?</h2>
+            <div class="opciones">
+                <a href="registro-gestor.html" class="opcion">
+                    <h3>Gestor Inmobiliario Free</h3>
+                    <p>Regístrate como gestor inmobiliario independiente y comienza a publicar propiedades.</p>
+                </a>
+                <a href="registro-propietario.html" class="opcion">
+                    <h3>Propietario</h3>
+                    <p>Regístrate como propietario y administra tus propiedades en nuestra plataforma.</p>
+                </a>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <p>© 2026 PNK Inmobiliaria - La Serena, Región de Coquimbo</p>
+    </footer>
+
+</body>
+</html>

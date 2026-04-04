@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mantenedor de Usuarios - PNK Inmobiliaria</title>
+    <style>
+        :root {
+            --primary-color: #2b3647;
+            --secondary-color: #00a650;
+            --bg-color: #f5f5f5;
+            --text-color: #333;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', sans-serif; }
+        body { background-color: var(--bg-color); color: var(--text-color); min-height: 100vh; }
+
+        header { background-color: #ffe600; padding: 15px 5%; display: flex; justify-content: space-between; align-items: center; }
+        .logo-container h1 { font-size: 1.5rem; color: var(--primary-color); }
+        nav a { text-decoration: none; color: var(--primary-color); font-weight: 600; }
+
+        main { max-width: 1000px; margin: 30px auto; padding: 0 20px; }
+        .title { text-align: center; margin-bottom: 30px; color: var(--primary-color); }
+
+        .users-table { width: 100%; border-collapse: collapse; background: #fff; border-radius: 8px; overflow: hidden; box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
+        .users-table th, .users-table td { padding: 15px; text-align: left; border-bottom: 1px solid #eee; }
+        .users-table th { background: var(--primary-color); color: #fff; font-weight: 600; }
+        .users-table tr:hover { background: #f8f9fa; }
+        .delete-btn { background: #dc3545; color: white; border: none; padding: 8px 12px; border-radius: 4px; cursor: pointer; font-size: 0.9rem; }
+        .delete-btn:hover { background: #c82333; }
+        .activate-btn { background: var(--secondary-color); color: white; border: none; padding: 8px 12px; border-radius: 4px; cursor: pointer; font-size: 0.9rem; margin-right: 5px; }
+        .activate-btn:hover { background: #008f45; }
+        .status-pendiente { color: #ffc107; font-weight: bold; }
+        .status-activo { color: var(--secondary-color); font-weight: bold; }
+
+        .no-users { text-align: center; padding: 50px; color: #666; }
+
+        footer { background: var(--primary-color); color: #fff; padding: 20px; text-align: center; margin-top: 50px; }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="logo-container">
+            <a href="index.html" style="text-decoration: none; color: inherit;"><h1>PNK Inmobiliaria</h1></a>
+        </div>
+        <nav>
+            <a href="admin-dashboard.html">← Volver al Panel</a>
+        </nav>
+    </header>
+
+    <main>
+        <h1 class="title">Mantenedor de Usuarios</h1>
+        <table class="users-table" id="users-table">
+            <thead>
+                <tr>
+                    <th>Nombre</th>
+                    <th>Email</th>
+                    <th>RUT</th>
+                    <th>Tipo</th>
+                    <th>Estado</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody id="users-body">
+                <!-- Usuarios se cargarán aquí -->
+            </tbody>
+        </table>
+        <div id="no-users" class="no-users" style="display: none;">
+            No hay usuarios registrados.
+        </div>
+    </main>
+
+    <footer>
+        <p>© 2026 PNK Inmobiliaria - La Serena, Región de Coquimbo</p>
+    </footer>
+
+    <script>
+        function loadUsers() {
+            const usersStr = localStorage.getItem('usuariosRegistrados');
+            const usersBody = document.getElementById('users-body');
+            const noUsers = document.getElementById('no-users');
+            const table = document.getElementById('users-table');
+
+            if (!usersStr) {
+                table.style.display = 'none';
+                noUsers.style.display = 'block';
+                return;
+            }
+
+            let users;
+            try {
+                users = JSON.parse(usersStr);
+                if (!Array.isArray(users)) {
+                    users = [users];
+                }
+            } catch (e) {
+                table.style.display = 'none';
+                noUsers.style.display = 'block';
+                return;
+            }
+
+            if (users.length === 0) {
+                table.style.display = 'none';
+                noUsers.style.display = 'block';
+                return;
+            }
+
+            table.style.display = 'table';
+            noUsers.style.display = 'none';
+
+            usersBody.innerHTML = '';
+
+            users.forEach((user, index) => {
+                if (!user.status) user.status = 'activo'; // Default for existing users
+                const statusClass = user.status === 'activo' ? 'status-activo' : 'status-pendiente';
+                const statusText = user.status === 'activo' ? 'Activo' : 'Pendiente';
+                const activateButton = user.status === 'pendiente' ? `<button class="activate-btn" onclick="activateUser(${index})">Activar</button>` : '';
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${user.nombre || 'N/A'}</td>
+                    <td>${user.email || 'N/A'}</td>
+                    <td>${user.rut || 'N/A'}</td>
+                    <td>${user.tipo || 'propietario'}</td>
+                    <td class="${statusClass}">${statusText}</td>
+                    <td>${activateButton}<button class="delete-btn" onclick="deleteUser(${index})">Eliminar</button></td>
+                `;
+                usersBody.appendChild(row);
+            });
+        }
+
+        function activateUser(index) {
+            if (confirm('¿Estás seguro de que quieres activar este usuario?')) {
+                const usersStr = localStorage.getItem('usuariosRegistrados');
+                let users = JSON.parse(usersStr);
+
+                if (!Array.isArray(users)) {
+                    users = [users];
+                }
+
+                users[index].status = 'activo';
+
+                localStorage.setItem('usuariosRegistrados', JSON.stringify(users));
+                loadUsers(); // Recargar la lista
+            }
+        }
+        function activateUser(index) {
+            if (confirm('¿Estás seguro de que quieres activar este usuario?')) {
+                const usersStr = localStorage.getItem('usuariosRegistrados');
+                let users = JSON.parse(usersStr);
+
+                if (!Array.isArray(users)) {
+                    users = [users];
+                }
+
+                users[index].status = 'activo';
+
+                localStorage.setItem('usuariosRegistrados', JSON.stringify(users));
+                loadUsers(); // Recargar la lista
+            }
+        }
+        // Cargar usuarios al cargar la página
+        window.onload = loadUsers;
+    </script>
+
+</body>
+</html>

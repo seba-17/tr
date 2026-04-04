@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login Administrador - PNK Inmobiliaria</title>
+    <style>
+        /* Estilos inspirados en portales inmobiliarios modernos */
+        :root {
+            --primary-color: #2b3647; /* Azul oscuro corporativo */
+            --secondary-color: #00a650; /* Verde estilo MercadoLibre/Portal Inmobiliario */
+            --bg-color: #ebebeb;
+            --text-color: #333;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Header / Navbar */
+        header {
+            background-color: #ffe600; /* Toque amarillo clásico de portales de Latam */
+            padding: 15px 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        .logo-container h1 {
+            font-size: 1.5rem;
+            color: var(--primary-color);
+        }
+
+        nav a {
+            text-decoration: none;
+            color: var(--primary-color);
+            font-weight: 500;
+            font-size: 0.95rem;
+        }
+
+        nav a:hover {
+            color: #000;
+        }
+
+        /* Main Content - Centrado con Flexbox */
+        main {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .login-container {
+            background: #fff;
+            padding: 40px;
+            border-radius: 8px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            width: 100%;
+            max-width: 400px;
+        }
+
+        .login-container h2 {
+            margin-bottom: 30px;
+            font-size: 1.8rem;
+            color: var(--primary-color);
+            text-align: center;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 600;
+            color: #555;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 1rem;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+
+        .form-group input:focus {
+            border-color: var(--secondary-color);
+        }
+
+        .btn-submit {
+            width: 100%;
+            padding: 12px;
+            background-color: var(--secondary-color);
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .btn-submit:hover {
+            background-color: #007a3d;
+        }
+
+        .back-link {
+            display: block;
+            text-align: center;
+            margin-top: 20px;
+            text-decoration: none;
+            color: var(--primary-color);
+            font-weight: 500;
+        }
+
+        .back-link:hover {
+            text-decoration: underline;
+        }
+
+        footer {
+            background: var(--primary-color);
+            color: #fff;
+            padding: 20px;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="logo-container">
+            <a href="index.html" style="text-decoration: none; color: inherit;"><h1>PNK Inmobiliaria</h1></a>
+        </div>
+        <nav>
+            <a href="login.html">← Volver al login</a>
+        </nav>
+    </header>
+
+    <main>
+        <section class="login-container" aria-labelledby="admin-login-title">
+            <h2 id="admin-login-title">Login de Administrador</h2>
+            <form id="admin-login-form" onsubmit="return handleAdminLogin(event)">
+                <div class="form-group">
+                    <label for="admin-usuario">Usuario</label>
+                    <input type="text" id="admin-usuario" name="usuario" required>
+                </div>
+                <div class="form-group">
+                    <label for="admin-password">Contraseña</label>
+                    <input type="password" id="admin-password" name="password" required>
+                </div>
+                <button type="submit" class="btn-submit">Ingresar como Administrador</button>
+            </form>
+            <a href="login.html" class="back-link">Volver al login normal</a>
+        </section>
+    </main>
+
+    <footer>
+        <p>© 2026 PNK Inmobiliaria - La Serena, Región de Coquimbo</p>
+    </footer>
+
+    <script>
+        function handleAdminLogin(event) {
+            event.preventDefault();
+            
+            const usuario = document.getElementById('admin-usuario').value.trim();
+            const password = document.getElementById('admin-password').value;
+            
+            // Para este ejemplo, usuario admin: Usuario_PENKA / ADMINISTRADORPENKA
+            // En producción, esto debería venir de un backend seguro
+            if (usuario === 'Usuario_PENKA' && password === 'ADMINISTRADORPENKA') {
+                // Login exitoso - guardar sesión como admin
+                sessionStorage.setItem('usuarioLogueado', JSON.stringify({
+                    nombre: 'Usuario_PENKA',
+                    email: 'admin@pnk.cl',
+                    rut: '12345678-9',
+                    tipo: 'admin',
+                    password: password
+                }));
+                window.location.href = 'admin-dashboard.html'; // Redirigir a panel de admin
+                return false;
+            }
+            
+            // Usuario no válido
+            alert('Credenciales de administrador incorrectas');
+            return false;
+        }
+    </script>
+
+</body>
+</html>

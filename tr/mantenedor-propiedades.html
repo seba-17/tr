@@ -1,0 +1,181 @@
+﻿<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mantenedor de Propiedades - PNK Inmobiliaria</title>
+    <style>
+        :root {
+            --primary-color: #2b3647;
+            --secondary-color: #00a650;
+            --bg-color: #f5f5f5;
+            --text-color: #333;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', sans-serif; }
+        body { background-color: var(--bg-color); color: var(--text-color); min-height: 100vh; display: flex; flex-direction: column; }
+        header { background-color: #ffe600; padding: 15px 5%; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+        .logo-container h1 { font-size: 1.5rem; color: var(--primary-color); }
+        nav a { text-decoration: none; color: var(--primary-color); font-weight: 600; }
+        main { flex: 1; padding: 30px 5%; }
+        .page-title { margin-bottom: 20px; font-size: 2rem; color: var(--primary-color); }
+        .actions { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 20px; }
+        .actions a, .actions button { display: inline-flex; align-items: center; justify-content: center; padding: 12px 18px; border-radius: 6px; border: none; text-decoration: none; color: #fff; background: var(--secondary-color); cursor: pointer; font-weight: 600; }
+        .actions a:hover, .actions button:hover { background: #008f45; }
+        .table-card { background: #fff; border-radius: 10px; padding: 25px; box-shadow: 0 2px 10px rgba(0,0,0,0.08); }
+        table { width: 100%; border-collapse: collapse; }
+        thead { background: var(--primary-color); color: #fff; }
+        th, td { padding: 14px 12px; text-align: left; border-bottom: 1px solid #e6e6e6; }
+        th { font-weight: 700; }
+        tbody tr:hover { background: #f7f7f7; }
+        .action-buttons { display: flex; gap: 10px; }
+        .btn-delete { background: #dc3545; color: #fff; padding: 8px 12px; border: none; border-radius: 5px; cursor: pointer; }
+        .btn-delete:hover { background: #c82333; }
+        .btn-view { background: #007bff; color: #fff; padding: 8px 12px; border: none; border-radius: 5px; cursor: pointer; }
+        .btn-view:hover { background: #0056b3; }
+        .no-data { padding: 40px 0; text-align: center; color: #666; font-size: 1.05rem; }
+        footer { background-color: var(--primary-color); color: #fff; text-align: center; padding: 20px 5%; margin-top: auto; }
+        @media (max-width: 900px) { .table-card { overflow-x: auto; } table { min-width: 800px; } }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="logo-container">
+            <a href="index.html" style="text-decoration: none; color: inherit;"><h1>PNK Inmobiliaria</h1></a>
+        </div>
+        <nav>
+            <a href="dashboard.html"> Volver al dashboard</a>
+        </nav>
+    </header>
+    <main>
+        <div class="page-title">Administración de Publicaciones</div>
+        <div class="actions">
+            <a href="crud-propiedades.html">Publicar nueva propiedad</a>
+        </div>
+        <section class="table-card" aria-labelledby="table-properties-title">
+            <h2 id="table-properties-title" style="margin-bottom: 18px; color: var(--primary-color);">Propiedades ya publicadas</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Tipo</th>
+                        <th>Descripción</th>
+                        <th>Dormitorios</th>
+                        <th>Baños</th>
+                        <th>Precio UF</th>
+                        <th>Fecha</th>
+                        <th>Publicado</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody id="properties-table-body"></tbody>
+            </table>
+            <div id="no-properties" class="no-data" style="display: none;">No hay propiedades publicadas aún.</div>
+        </section>
+    </main>
+    <footer>
+        <p> 2026 PNK Inmobiliaria - La Serena, Región de Coquimbo</p>
+    </footer>
+    <script>
+        const PROPERTY_KEY = 'propiedadesPublicadas';
+
+        const defaultFeaturedProperties = [
+            {
+                tipo: 'Casa',
+                descripcion: 'Hermosa casa en sector El Milagro',
+                dormitorios: '4',
+                banos: '3',
+                precioUf: '5,650',
+                precioClp: '200.969.031',
+                fecha: '03/04/2026',
+                publicadoEn: '03/04/2026',
+                caracteristicas: ['Bodega', 'Cocina amoblada', 'Piscina', 'Estacionamiento', 'Antejardín', 'Logia', 'Patio trasero']
+            },
+            {
+                tipo: 'Departamento',
+                descripcion: 'Moderno depto en centro de La Serena',
+                dormitorios: '2',
+                banos: '1',
+                precioUf: '2,800',
+                precioClp: '99.200.000',
+                fecha: '01/04/2026',
+                publicadoEn: '01/04/2026',
+                caracteristicas: ['Cocina amoblada', 'Logia', 'Estacionamiento']
+            },
+            {
+                tipo: 'Terreno',
+                descripcion: 'Terreno amplio para construcción',
+                dormitorios: '0',
+                banos: '0',
+                precioUf: '1,200',
+                precioClp: '42.500.000',
+                fecha: '28/03/2026',
+                publicadoEn: '28/03/2026',
+                caracteristicas: ['Ubicación estratégica', 'Buena conectividad']
+            }
+        ];
+
+        function getStoredProperties() {
+            const stored = localStorage.getItem(PROPERTY_KEY);
+            if (!stored) return [];
+            try {
+                const parsed = JSON.parse(stored);
+                return Array.isArray(parsed) ? parsed : [];
+            } catch (error) {
+                console.error('Error parsing properties:', error);
+                return [];
+            }
+        }
+
+        function seedFeaturedProperties() {
+            const properties = getStoredProperties();
+            if (properties.length === 0) {
+                localStorage.setItem(PROPERTY_KEY, JSON.stringify(defaultFeaturedProperties));
+            }
+        }
+
+        function renderProperties() {
+            const properties = getStoredProperties();
+            const tbody = document.getElementById('properties-table-body');
+            const noProperties = document.getElementById('no-properties');
+
+            tbody.innerHTML = '';
+
+            if (properties.length === 0) {
+                noProperties.style.display = 'block';
+                return;
+            }
+
+            noProperties.style.display = 'none';
+
+            properties.forEach((prop, index) => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${prop.tipo || 'N/A'}</td>
+                    <td>${prop.descripcion || 'N/A'}</td>
+                    <td>${prop.dormitorios || '0'}</td>
+                    <td>${prop.banos || '0'}</td>
+                    <td>${prop.precioUf || '0'}</td>
+                    <td>${prop.fecha || 'N/A'}</td>
+                    <td>${prop.publicadoEn || 'N/A'}</td>
+                    <td class="action-buttons">
+                        <button class="btn-delete" onclick="deleteProperty(${index})">Eliminar</button>
+                    </td>
+                `;
+                tbody.appendChild(row);
+            });
+        }
+
+        function deleteProperty(index) {
+            const properties = getStoredProperties();
+            if (!confirm('¿Eliminar esta propiedad?')) return;
+            properties.splice(index, 1);
+            localStorage.setItem(PROPERTY_KEY, JSON.stringify(properties));
+            renderProperties();
+        }
+
+        window.onload = function() {
+            seedFeaturedProperties();
+            renderProperties();
+        };
+    </script>
+</body>
+</html>

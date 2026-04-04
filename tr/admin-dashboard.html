@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Panel de Administración - PNK Inmobiliaria</title>
+    <style>
+        :root {
+            --primary-color: #2b3647;
+            --secondary-color: #00a650;
+            --bg-color: #f5f5f5;
+            --text-color: #333;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', sans-serif; }
+        body { background-color: var(--bg-color); color: var(--text-color); min-height: 100vh; }
+
+        header { background-color: #ffe600; padding: 15px 5%; display: flex; justify-content: space-between; align-items: center; }
+        .logo-container h1 { font-size: 1.5rem; color: var(--primary-color); }
+        nav a { text-decoration: none; color: var(--primary-color); font-weight: 600; }
+
+        main { max-width: 1000px; margin: 30px auto; padding: 0 20px; }
+        .welcome { text-align: center; margin-bottom: 40px; }
+        .welcome h2 { color: var(--primary-color); margin-bottom: 10px; }
+
+        .admin-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; }
+        .admin-card { background: #fff; padding: 25px; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); text-align: center; }
+        .admin-card h3 { color: var(--primary-color); margin-bottom: 15px; }
+        .admin-card p { margin-bottom: 20px; color: #666; }
+        .admin-card a { display: inline-block; background: var(--secondary-color); color: white; padding: 10px 20px; text-decoration: none; border-radius: 4px; font-weight: 600; transition: background 0.3s; }
+        .admin-card a:hover { background: #007a3d; }
+
+        footer { background: var(--primary-color); color: #fff; padding: 20px; text-align: center; margin-top: 50px; }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="logo-container">
+            <a href="index.html" style="text-decoration: none; color: inherit;"><h1>PNK Inmobiliaria</h1></a>
+        </div>
+        <nav>
+            <a href="admin-login.html">Cerrar Sesión</a>
+        </nav>
+    </header>
+
+    <main>
+        <div class="welcome">
+            <h2>Bienvenido, Usuario_PENKA</h2>
+            <p>Panel de Administración - PNK Inmobiliaria</p>
+        </div>
+
+        <div class="admin-grid">
+            <div class="admin-card">
+                <h3>Ingresar Dueño de Inmueble</h3>
+                <p>Registrar un nuevo propietario en el sistema.</p>
+                <a href="registro-propietario.html">Ir a Registro</a>
+            </div>
+
+            <div class="admin-card">
+                <h3>Gestores Inmobiliarios Free</h3>
+                <p>Registrar, habilitar o gestionar gestores inmobiliarios independientes.</p>
+                <a href="mantenedor-gestores.html">Ir a Gestores</a>
+            </div>
+
+            <div class="admin-card">
+                <h3>Dar de Baja Usuarios</h3>
+                <p>Administrar y eliminar propietarios o gestores del sistema.</p>
+                <a href="mantenedor-usuarios.html">Administrar Usuarios</a>
+            </div>
+
+            <div class="admin-card">
+                <h3>Administración de Publicaciones</h3>
+                <p>Gestionar avisos y publicaciones de inmuebles.</p>
+                <a href="mantenedor-propiedades.html">Administrar Propiedades</a>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <p>© 2026 PNK Inmobiliaria - La Serena, Región de Coquimbo</p>
+    </footer>
+
+</body>
+</html>

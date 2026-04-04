@@ -1,0 +1,477 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PNK Inmobiliaria - Inicio</title>
+    <style>
+        /* Estilos inspirados en portales inmobiliarios modernos */
+        :root {
+            --primary-color: #2b3647; /* Azul oscuro corporativo */
+            --secondary-color: #00a650; /* Verde estilo MercadoLibre/Portal Inmobiliario */
+            --bg-color: #ebebeb;
+            --text-color: #333;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+        }
+
+        /* Header / Navbar */
+        header {
+            background-color: #ffe600; /* Toque amarillo clásico de portales de Latam */
+            padding: 15px 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        .logo-container h1 {
+            font-size: 1.5rem;
+            color: var(--primary-color);
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+            gap: 20px;
+            align-items: center;
+        }
+
+        nav a {
+            text-decoration: none;
+            color: var(--primary-color);
+            font-weight: 500;
+            font-size: 0.95rem;
+        }
+
+        nav a:hover {
+            color: #000;
+        }
+
+        .auth-buttons {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+
+        .btn-outline {
+            border: 1px solid var(--primary-color);
+            padding: 8px 15px;
+            border-radius: 4px;
+            color: var(--primary-color);
+            text-decoration: none;
+        }
+
+        .btn-solid {
+            background-color: var(--primary-color);
+            color: #fff;
+            padding: 8px 15px;
+            border-radius: 4px;
+            text-decoration: none;
+            border: none;
+            cursor: pointer;
+        }
+
+        .btn-register {
+            background-color: #007bff;
+            color: #fff;
+            padding: 8px 15px;
+            border-radius: 4px;
+            text-decoration: none;
+            border: none;
+            cursor: pointer;
+        }
+
+        .btn-register:hover {
+            background-color: #0056b3;
+        }
+
+        .btn-gestor {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            padding: 8px 16px;
+            border: 1px solid #0056b3;
+            border-radius: 10px;
+            background: #ffe600;
+            color: var(--primary-color);
+            font-weight: 700;
+            font-size: 0.9rem;
+            min-width: auto;
+            text-decoration: none;
+            transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease, background 0.2s ease;
+            box-shadow: 0 4px 10px rgba(0, 86, 179, 0.12);
+        }
+
+        .btn-gestor:hover {
+            background: #e6d100;
+            border-color: #003d82;
+            transform: translateY(-1px);
+            box-shadow: 0 8px 16px rgba(0, 86, 179, 0.18);
+        }
+
+        /* Hero y Buscador Central */
+        .hero-section {
+            background-image: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), url('https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80');
+            background-size: cover;
+            background-position: center;
+            height: 450px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .search-box {
+            background: #fff;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            width: 100%;
+            max-width: 900px;
+        }
+
+        .search-box h2 {
+            margin-bottom: 20px;
+            font-size: 1.5rem;
+            color: var(--primary-color);
+        }
+
+        .search-form {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .input-group {
+            flex: 1;
+            min-width: 200px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .input-group label {
+            font-size: 0.85rem;
+            margin-bottom: 5px;
+            color: #666;
+            font-weight: 600;
+        }
+
+        .input-group select, .input-group input {
+            padding: 12px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 1rem;
+            outline: none;
+        }
+
+        .input-group select:focus, .input-group input:focus {
+            border-color: var(--secondary-color);
+        }
+
+        .btn-buscar {
+            background-color: var(--secondary-color);
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 4px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background 0.3s;
+            margin-top: 22px; /* Alinear con los inputs */
+        }
+
+        .btn-buscar:hover {
+            background-color: #008f45;
+        }
+
+        /* Grilla de Propiedades */
+        .main-content {
+            padding: 50px 5%;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .main-content h2 {
+            margin-bottom: 30px;
+            font-size: 1.8rem;
+            color: var(--primary-color);
+        }
+
+        .propiedades-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 25px;
+        }
+
+        .card-propiedad {
+            background: #fff;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            transition: transform 0.2s, box-shadow 0.2s;
+            cursor: pointer;
+            text-decoration: none;
+            color: var(--text-color);
+            display: block;
+        }
+
+        .card-propiedad:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.15);
+        }
+
+        .card-img-container {
+            position: relative;
+            height: 200px;
+        }
+
+        .card-img-container img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .badge-tipo {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            background: rgba(0,0,0,0.7);
+            color: white;
+            padding: 5px 10px;
+            border-radius: 4px;
+            font-size: 0.8rem;
+        }
+
+        .card-info {
+            padding: 20px;
+        }
+
+        .precio-uf {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: var(--primary-color);
+        }
+
+        .precio-clp {
+            font-size: 0.9rem;
+            color: #666;
+            margin-bottom: 10px;
+        }
+
+        .ubicacion {
+            font-size: 0.95rem;
+            color: #444;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        /* Footer */
+        footer {
+            background-color: var(--primary-color);
+            color: #fff;
+            padding: 40px 5%;
+            text-align: center;
+            margin-top: 50px;
+        }
+
+        footer a {
+            color: #fff;
+            margin: 0 10px;
+            text-decoration: none;
+        }
+        
+        footer a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="logo-container">
+            <h1>PNK Inmobiliaria</h1>
+        </div>
+        
+        <nav aria-label="Navegación principal">
+            <ul>
+                <li><a href="registro-gestor.html" class="btn-gestor">Ser Gestor Freelance</a></li>
+                <li><a href="registro-propietario.html" class="btn-gestor">Publicar mi Propiedad</a></li>
+            </ul>
+        </nav>
+
+        <div class="auth-buttons">
+            <a href="login.html" class="btn-solid">Ingresar</a>
+            <a href="registro.html" class="btn-register">Registrarse</a>
+        </div>
+    </header>
+
+    <main>
+        <section class="hero-section" aria-label="Buscador principal">
+            <div class="search-box">
+                <h2>Encuentra tu próximo hogar en Coquimbo</h2>
+                <form class="search-form">
+                    <div class="input-group">
+                        <label for="provincia">Provincia</label>
+                        <select id="provincia" name="provincia" required>
+                            <option value="">Todas las provincias</option>
+                            <option value="elqui">Elqui</option>
+                            <option value="limari">Limarí</option>
+                            <option value="choapa">Choapa</option>
+                        </select>
+                    </div>
+
+                    <div class="input-group">
+                        <label for="inmueble">Inmuebles</label>
+                        <select id="inmueble" name="inmueble">
+                            <option value="">Todos los inmuebles</option>
+                            <option value="departamento">Departamento</option>
+                            <option value="casa">Casa</option>
+                            <option value="terreno">Terreno</option>
+                        </select>
+                    </div>
+
+                    <div class="input-group">
+                        <label for="comuna">Comuna</label>
+                        <select id="comuna" name="comuna">
+                            <option value="">Todas las comunas</option>
+                            <option value="laserena">La Serena</option>
+                            <option value="coquimbo">Coquimbo</option>
+                            <option value="ovalle">Ovalle</option>
+                        </select>
+                    </div>
+
+                    <div class="input-group">
+                        <label for="sector">Sector</label>
+                        <input type="text" id="sector" name="sector" placeholder="Ej: El Milagro, Centro...">
+                    </div>
+
+                    <button type="button" class="btn-buscar">Buscar</button>
+                </form>
+            </div>
+        </section>
+
+        <section class="main-content">
+            <h2>Propiedades destacadas</h2>
+            
+            <div class="propiedades-grid">
+                <a href="detalle.html" class="card-propiedad" data-tipo="casa" data-provincia="elqui" data-comuna="laserena" aria-label="Ver detalles de Casa en El Milagro">
+                    <div class="card-img-container">
+                        <span class="badge-tipo">Casa</span>
+                        <img src="https://images.unsplash.com/photo-1518780664697-55e3ad937233?auto=format&fit=crop&w=600&q=80" alt="Casa en El Milagro">
+                    </div>
+                    <div class="card-info">
+                        <div class="precio-uf">UF 5.650</div>
+                        <div class="precio-clp">$200.969.031 CLP</div>
+                        <div class="ubicacion">
+                            📍 Sector El Milagro, La Serena
+                        </div>
+                        <p style="color: var(--secondary-color); font-weight: 500; font-size: 0.9rem;">Quiero saber más!</p>
+                    </div>
+                </a>
+
+                <a href="detalle-departamento.html" class="card-propiedad" data-tipo="departamento" data-provincia="elqui" data-comuna="coquimbo" aria-label="Ver detalles de Departamento en Peñuelas">
+                    <div class="card-img-container">
+                        <span class="badge-tipo">Departamento</span>
+                        <img src="https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?auto=format&fit=crop&w=600&q=80" alt="Departamento en Peñuelas">
+                    </div>
+                    <div class="card-info">
+                        <div class="precio-uf">UF 3.200</div>
+                        <div class="precio-clp">$118.000.000 CLP</div>
+                        <div class="ubicacion">
+                            📍 Peñuelas, Coquimbo
+                        </div>
+                        <p style="color: var(--secondary-color); font-weight: 500; font-size: 0.9rem;">Quiero saber más!</p>
+                    </div>
+                </a>
+
+                <a href="detalle-terreno.html" class="card-propiedad" data-tipo="terreno" data-provincia="limari" data-comuna="ovalle" aria-label="Ver detalles de Terreno en Ovalle">
+                    <div class="card-img-container">
+                        <span class="badge-tipo">Terreno</span>
+                        <img src="https://images.unsplash.com/photo-1500382017468-9049fed747ef?auto=format&fit=crop&w=600&q=80" alt="Terreno en Ovalle">
+                    </div>
+                    <div class="card-info">
+                        <div class="precio-uf">UF 1.500</div>
+                        <div class="precio-clp">$55.000.000 CLP</div>
+                        <div class="ubicacion">
+                            📍 Sector Centro, Ovalle
+                        </div>
+                        <p style="color: var(--secondary-color); font-weight: 500; font-size: 0.9rem;">Quiero saber más!</p>
+                    </div>
+                </a>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p style="margin-bottom: 15px;">© 2026 Todos los derechos Reservados PNK Inmobiliaria</p>
+        <nav aria-label="Enlaces del pie de página">
+            <a href="registro-propietario.html">Registro Propietario</a> | 
+            <a href="registro-gestor.html">Registro Gestor</a> | 
+            <a href="dashboard.html">Panel Admin</a>
+        </nav>
+    </footer>
+
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const provinciaSelect = document.getElementById('provincia');
+            const inmuebleSelect = document.getElementById('inmueble');
+            const comunaSelect = document.getElementById('comuna');
+            const sectorInput = document.getElementById('sector');
+            const btnBuscar = document.querySelector('.btn-buscar');
+            const propiedades = document.querySelectorAll('.card-propiedad');
+
+            function filtrarPropiedades() {
+                const provincia = provinciaSelect.value;
+                const inmueble = inmuebleSelect.value;
+                const comuna = comunaSelect.value;
+                const sector = sectorInput.value.toLowerCase();
+
+                propiedades.forEach(propiedad => {
+                    const tipo = propiedad.dataset.tipo;
+                    const prov = propiedad.dataset.provincia;
+                    const com = propiedad.dataset.comuna;
+                    const ubicacion = propiedad.querySelector('.ubicacion').textContent.toLowerCase();
+
+                    const matchProvincia = !provincia || prov === provincia;
+                    const matchInmueble = !inmueble || tipo === inmueble;
+                    const matchComuna = !comuna || com === comuna;
+                    const matchSector = !sector || ubicacion.includes(sector);
+
+                    if (matchProvincia && matchInmueble && matchComuna && matchSector) {
+                        propiedad.style.display = 'block';
+                    } else {
+                        propiedad.style.display = 'none';
+                    }
+                });
+            }
+
+            provinciaSelect.addEventListener('change', filtrarPropiedades);
+            inmuebleSelect.addEventListener('change', filtrarPropiedades);
+            comunaSelect.addEventListener('change', filtrarPropiedades);
+            sectorInput.addEventListener('input', filtrarPropiedades);
+            btnBuscar.addEventListener('click', function(e) {
+                e.preventDefault();
+                filtrarPropiedades();
+            });
+        });
+
+
+    </script>
+</body>
+</html>

@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Recuperar Contraseña - PNK Inmobiliaria</title>
+    <style>
+        /* Estilos inspirados en portales inmobiliarios modernos */
+        :root {
+            --primary-color: #2b3647; /* Azul oscuro corporativo */
+            --secondary-color: #00a650; /* Verde estilo MercadoLibre/Portal Inmobiliario */
+            --bg-color: #ebebeb;
+            --text-color: #333;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Header / Navbar */
+        header {
+            background-color: #ffe600; /* Toque amarillo clásico de portales de Latam */
+            padding: 15px 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        .logo-container h1 {
+            font-size: 1.5rem;
+            color: var(--primary-color);
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+            gap: 20px;
+            align-items: center;
+        }
+
+        nav a {
+            text-decoration: none;
+            color: var(--primary-color);
+            font-weight: 500;
+            font-size: 0.95rem;
+        }
+
+        nav a:hover {
+            color: #000;
+        }
+
+        /* Main Content - Centrado con Flexbox */
+        main {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .recover-container {
+            background: #fff;
+            padding: 40px;
+            border-radius: 8px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            width: 100%;
+            max-width: 400px;
+        }
+
+        .recover-container h2 {
+            margin-bottom: 20px;
+            font-size: 1.8rem;
+            color: var(--primary-color);
+            text-align: center;
+        }
+
+        .recover-container p {
+            margin-bottom: 30px;
+            text-align: center;
+            color: #666;
+            line-height: 1.5;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 600;
+            color: #555;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 1rem;
+            outline: none;
+        }
+
+        .form-group input:focus {
+            border-color: var(--secondary-color);
+        }
+
+        .btn-recover {
+            background-color: var(--secondary-color);
+            color: white;
+            border: none;
+            padding: 15px;
+            border-radius: 4px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            cursor: pointer;
+            width: 100%;
+            transition: background 0.3s;
+        }
+
+        .btn-recover:hover {
+            background-color: #008f45;
+        }
+
+        .back-to-login {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .back-to-login a {
+            color: var(--primary-color);
+            text-decoration: none;
+            font-size: 0.9rem;
+        }
+
+        .back-to-login a:hover {
+            text-decoration: underline;
+        }
+
+        /* Footer */
+        footer {
+            background-color: var(--primary-color);
+            color: #fff;
+            padding: 20px 5%;
+            text-align: center;
+        }
+
+        footer a {
+            color: #fff;
+            text-decoration: none;
+        }
+
+        footer a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="logo-container">
+            <a href="index.html" style="text-decoration: none; color: inherit;"><h1>PNK Inmobiliaria</h1></a>
+        </div>
+        <nav>
+            <ul>
+                <li><a href="index.html">Inicio</a></li>
+                <li><a href="registro-propietario.html">Registro Propietario</a></li>
+                <li><a href="registro-gestor.html">Registro Gestor</a></li>
+                <li><a href="mantenedor-propiedades.html">Propiedades</a></li>
+                <li><a href="mantenedor-usuarios.html">Usuarios</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <section class="recover-container" aria-labelledby="recover-title">
+            <h2 id="recover-title">Recuperar Contraseña</h2>
+            <p>Ingresa tu correo electrónico y te enviaremos un enlace para restablecer tu contraseña.</p>
+
+            <form action="#" method="post" aria-labelledby="recover-title">
+                <div class="form-group">
+                    <label for="email">Correo Electrónico</label>
+                    <input type="email" id="email" name="email" required aria-label="Ingrese su dirección de correo electrónico" placeholder="ejemplo@correo.com">
+                </div>
+
+                <button type="submit" class="btn-recover" aria-label="Enviar enlace de recuperación de contraseña">Enviar enlace de recuperación</button>
+
+                <div class="back-to-login">
+                    <a href="login.html" aria-label="Volver a la página de inicio de sesión">← Volver al inicio de sesión</a>
+                </div>
+            </form>
+        </section>
+    </main>
+
+    <footer>
+        <p>© 2026 PNK Inmobiliaria - La Serena, Región de Coquimbo</p>
+    </footer>
+
+</body>
+</html>

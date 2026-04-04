@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestores Inmobiliarios - PNK Inmobiliaria</title>
+    <style>
+        :root {
+            --primary-color: #2b3647;
+            --secondary-color: #00a650;
+            --bg-color: #f5f5f5;
+            --text-color: #333;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', sans-serif; }
+        body { background-color: var(--bg-color); color: var(--text-color); min-height: 100vh; }
+
+        header { background-color: #ffe600; padding: 15px 5%; display: flex; justify-content: space-between; align-items: center; }
+        .logo-container h1 { font-size: 1.5rem; color: var(--primary-color); }
+        nav a { text-decoration: none; color: var(--primary-color); font-weight: 600; }
+
+        main { max-width: 1000px; margin: 30px auto; padding: 0 20px; }
+        .title { text-align: center; margin-bottom: 20px; color: var(--primary-color); }
+        .description { text-align: center; margin-bottom: 30px; color: #666; }
+        .actions { display: flex; justify-content: center; gap: 15px; margin-bottom: 25px; }
+        .actions a { display: inline-block; background: var(--secondary-color); color: #fff; padding: 10px 18px; border-radius: 5px; text-decoration: none; font-weight: 600; }
+        .actions a:hover { background: #008f45; }
+
+        .gestores-table { width: 100%; border-collapse: collapse; background: #fff; border-radius: 8px; overflow: hidden; box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
+        .gestores-table th, .gestores-table td { padding: 15px; text-align: left; border-bottom: 1px solid #eee; }
+        .gestores-table th { background: var(--primary-color); color: #fff; font-weight: 600; }
+        .gestores-table tr:hover { background: #f8f9fa; }
+
+        .status-pill { display: inline-flex; align-items: center; gap: 6px; padding: 6px 10px; border-radius: 999px; font-size: 0.9rem; font-weight: 600; }
+        .status-pending { background: #fff3cd; color: #856404; }
+        .status-active { background: #d4edda; color: #155724; }
+        .status-disabled { background: #f8d7da; color: #721c24; }
+
+        .btn-action { border: none; border-radius: 4px; padding: 8px 12px; cursor: pointer; font-weight: 600; color: #fff; }
+        .btn-enable { background: #007bff; }
+        .btn-enable:hover { background: #0062cc; }
+        .btn-disable { background: #dc3545; }
+        .btn-disable:hover { background: #c82333; }
+        .btn-delete { background: #6c757d; }
+        .btn-delete:hover { background: #5a6268; }
+
+        .no-gestores { text-align: center; padding: 50px; color: #666; }
+
+        footer { background: var(--primary-color); color: #fff; padding: 20px; text-align: center; margin-top: 50px; }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="logo-container">
+            <a href="index.html" style="text-decoration: none; color: inherit;"><h1>PNK Inmobiliaria</h1></a>
+        </div>
+        <nav>
+            <a href="admin-dashboard.html">← Volver al Panel</a>
+        </nav>
+    </header>
+
+    <main>
+        <h1 class="title">Gestores Inmobiliarios Free</h1>
+        <p class="description">Aquí puedes activar, desactivar o eliminar gestores registrados. También puedes registrar uno nuevo.</p>
+        <div class="actions">
+            <a href="registro-gestor.html">Registrar nuevo gestor</a>
+            <a href="mantenedor-usuarios.html">Ver todos los usuarios</a>
+        </div>
+
+        <table class="gestores-table" id="gestores-table">
+            <thead>
+                <tr>
+                    <th>Nombre</th>
+                    <th>Email</th>
+                    <th>RUT</th>
+                    <th>Estado</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody id="gestores-body"></tbody>
+        </table>
+        <div id="no-gestores" class="no-gestores" style="display: none;">No hay gestores registrados.</div>
+    </main>
+
+    <footer>
+        <p>© 2026 PNK Inmobiliaria - La Serena, Región de Coquimbo</p>
+    </footer>
+
+    <script>
+        function normalizeUsers(users) {
+            if (!Array.isArray(users)) users = [users];
+            return users.map(user => ({ ...user, estado: user.estado || 'pendiente' }));
+        }
+
+        function loadGestores() {
+            const usersStr = localStorage.getItem('usuariosRegistrados');
+            const gestoresBody = document.getElementById('gestores-body');
+            const noGestores = document.getElementById('no-gestores');
+            const table = document.getElementById('gestores-table');
+
+            if (!usersStr) {
+                table.style.display = 'none';
+                noGestores.style.display = 'block';
+                return;
+            }
+
+            let users;
+            try {
+                users = normalizeUsers(JSON.parse(usersStr));
+            } catch (e) {
+                table.style.display = 'none';
+                noGestores.style.display = 'block';
+                return;
+            }
+
+            const gestores = users.filter(user => (user.tipo || 'gestor').toLowerCase() === 'gestor');
+
+            if (gestores.length === 0) {
+                table.style.display = 'none';
+                noGestores.style.display = 'block';
+                return;
+            }
+
+            table.style.display = 'table';
+            noGestores.style.display = 'none';
+            gestoresBody.innerHTML = '';
+
+            gestores.forEach((gestor, index) => {
+                const row = document.createElement('tr');
+                const estado = gestor.estado || 'pendiente';
+                const estadoClass = estado === 'activo' ? 'status-active' : estado === 'deshabilitado' ? 'status-disabled' : 'status-pending';
+                const actionButton = estado === 'activo'
+                    ? `<button class="btn-action btn-disable" onclick="toggleGestor(${index}, 'deshabilitado')">Deshabilitar</button>`
+                    : `<button class="btn-action btn-enable" onclick="toggleGestor(${index}, 'activo')">Habilitar</button>`;
+
+                row.innerHTML = `
+                    <td>${gestor.nombre || 'N/A'}</td>
+                    <td>${gestor.email || 'N/A'}</td>
+                    <td>${gestor.rut || 'N/A'}</td>
+                    <td><span class="status-pill ${estadoClass}">${estado.charAt(0).toUpperCase() + estado.slice(1)}</span></td>
+                    <td>
+                        ${actionButton}
+                        <button class="btn-action btn-delete" onclick="deleteGestor(${index})">Eliminar</button>
+                    </td>
+                `;
+                gestoresBody.appendChild(row);
+            });
+        }
+
+        function toggleGestor(index, nuevoEstado) {
+            const usersStr = localStorage.getItem('usuariosRegistrados');
+            let users = normalizeUsers(JSON.parse(usersStr));
+            const gestores = users.filter(user => (user.tipo || 'gestor').toLowerCase() === 'gestor');
+            const gestor = gestores[index];
+
+            if (!gestor) return;
+
+            const usuarioIndex = users.findIndex(u => u.rut === gestor.rut && u.email === gestor.email);
+            if (usuarioIndex === -1) return;
+
+            users[usuarioIndex].estado = nuevoEstado;
+            localStorage.setItem('usuariosRegistrados', JSON.stringify(users));
+            loadGestores();
+        }
+
+        function deleteGestor(index) {
+            if (!confirm('¿Seguro que quieres eliminar este gestor?')) return;
+
+            const usersStr = localStorage.getItem('usuariosRegistrados');
+            let users = normalizeUsers(JSON.parse(usersStr));
+            const gestores = users.filter(user => (user.tipo || 'gestor').toLowerCase() === 'gestor');
+            const gestor = gestores[index];
+
+            if (!gestor) return;
+
+            users = users.filter(user => !(user.rut === gestor.rut && user.email === gestor.email));
+            localStorage.setItem('usuariosRegistrados', JSON.stringify(users));
+            loadGestores();
+        }
+
+        window.onload = loadGestores;
+    </script>
+</body>
+</html>
